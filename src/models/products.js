@@ -1,5 +1,5 @@
 import {DataTypes} from 'sequelize'
-import {uuidv4} from 'uuid'
+import {v4 as uuidv4} from 'uuid'
 export default (sequelize) =>{
     const Product = sequelize.define('Product', {
     id: {
