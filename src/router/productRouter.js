@@ -50,16 +50,15 @@ router.post('/:id/reviews',async (req,res,next)=>{
 router.get('/:id',async (req,res,next)=>{
     try {
         // select * from products where id=?
-         const product = await Product.findByPk(req.params.id)
-         if(!product){
-            return res.status(404).json({err:'product not found'})
-         }
-         res.status(200).json(product)
+        const product = await Product.findByPk(id, { include: [{ model: Review, as: 'reviews' }] });
+if (!product) return res.status(404).json({ error: 'product not found' });
+return res.json(product);
     } catch (error) {
         next(error)
     }
   
 })
+
 
 export default router
 
