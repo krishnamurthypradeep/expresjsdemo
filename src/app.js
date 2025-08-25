@@ -55,7 +55,7 @@ app.get('/',(req,res)=>{
 
 
  sequelize.sync({alter:true}).then(()=>{
-     app.listen(3000,()=>console.log('server started'))
+     app.listen(4000,()=>console.log('server started'))
  }).catch(error => console.error("Unable to start the server:", error))
          // verify DB creds
 //  await sequelize.sync({alter: true});                // only if you’re NOT using migrations

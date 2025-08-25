@@ -50,6 +50,7 @@ router.post('/:id/reviews',async (req,res,next)=>{
 router.get('/:id',async (req,res,next)=>{
     try {
         // select * from products where id=?
+       const {id} = await req.params
         const product = await Product.findByPk(id, { include: [{ model: Review, as: 'reviews' }] });
 if (!product) return res.status(404).json({ error: 'product not found' });
 return res.json(product);
