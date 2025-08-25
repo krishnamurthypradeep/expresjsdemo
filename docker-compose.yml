@@ -11,7 +11,7 @@ services:
       KEYCLOAK_ENABLE_HEALTH_ENDPOINTS: true
       KEYCLOAK_ENABLE_STATISTICS: true
   keycloak:
-    image: quay.io/keycloak/keycloak:21.1.1
+    image: keycloak/keycloak:21.1.1
     container_name: keycloak
     user: "0"
     environment:
