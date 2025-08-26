@@ -3,10 +3,10 @@ import * as jose from 'jose';
 
 const {
   KEYCLOAK_ISSUER,   
-  KEYCLOAK_AUDIENCE, 
+ 
 } = process.env;
 
-if (!KEYCLOAK_ISSUER || !KEYCLOAK_AUDIENCE) {
+if (!KEYCLOAK_ISSUER ) {
   console.warn('[auth] Expect env KEYCLOAK_ISSUER and KEYCLOAK_AUDIENCE');
 }
 
@@ -25,8 +25,7 @@ export function authenticate() {
       const token = auth.slice(7);
 
       const { payload } = await jose.jwtVerify(token, JWKS, {
-        issuer: KEYCLOAK_ISSUER,
-        audience: KEYCLOAK_AUDIENCE,
+        issuer: KEYCLOAK_ISSUER
       });
 
       req.user = payload; // includes sub, preferred_username, realm_access, resource_access, etc.

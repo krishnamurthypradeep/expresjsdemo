@@ -2,12 +2,23 @@ import express from 'express'
 import { sequelize, Product } from './models/index.js';
 import ProductRouter from './router/productRouter.js'
 import { Sequelize } from 'sequelize';
+import cors from 'cors';
+import { requireAuth } from "./middleware/requireAuth.js";
+import { attachUser } from "./middleware/attachUser.js";
 const app = express()
+app.use(cors({
+  origin: ["http://localhost:3000"], // your Next.js frontend
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+}));
+
 
 // middleware
 app.use(express.json())
 
 app.use('/api/products',ProductRouter)
+app.use("/api/reviews", requireAuth, attachUser);
 
 // error handling middleware
 app.use((err,req,res,next)=>{

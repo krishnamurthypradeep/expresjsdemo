@@ -2,6 +2,8 @@ import { Sequelize } from 'sequelize';
 import dbConfig from '../db/config.js';
 import defineProduct from './products.js'; // your factory from the question
 import defineReview from './review.js'
+import defineUser from "./user.js"; 
+
 const env = process.env.NODE_ENV ?? 'development';
 const cfg = dbConfig[env];
 
@@ -15,7 +17,7 @@ export const sequelize = new Sequelize(
 // Register models (explicit & simple)
 export const Product = defineProduct(sequelize);
 export const Review = defineReview(sequelize);
-
+export const User = defineUser(sequelize);
 // If any model defines `associate(models)`, wire them here:
 
 Product.hasMany(Review, {
@@ -28,7 +30,15 @@ Review.belongsTo(Product, {
   as: 'product',
   foreignKey: { name: 'product_id', allowNull: false }
 })
-const models = { Product,Review };
+Review.belongsTo(User, {
+  as: "user",
+  foreignKey: { name: "user_id", allowNull: false },
+});
+User.hasMany(Review, {
+  as: "reviews",
+  foreignKey: { name: "user_id", allowNull: false },
+});
+const models = { Product,Review, User };
 Object.values(models).forEach((m) => m.associate?.(models));
 
 export default { sequelize, ...models };

@@ -1,10 +1,14 @@
 import express from 'express'
 
 import { Product, Review } from '../models/index.js'
+import { authenticate,requireRealmRole } from '../middleware/auth.js'
 
 const router = express.Router()
 
-router.get('/',async (req,res,next)=>{
+
+router.use(authenticate())
+
+router.get('/',requireRealmRole('guest'),async (req,res,next)=>{
     try {
         // select * from products
          const includeReviews = String(req.query.include || '').toLowerCase() === 'reviews';
@@ -17,7 +21,7 @@ router.get('/',async (req,res,next)=>{
     }
   
 })
-router.post('/',async (req,res,next)=>{
+router.post('/',requireRealmRole('admin'),async (req,res,next)=>{
     try {
         // insert into products values (?,?,?,?,?)
          const products = await Product.create(req.body)
